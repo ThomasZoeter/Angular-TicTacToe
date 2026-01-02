@@ -24,7 +24,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist/my-angular-app/browser
+          path: dist/angular-tactactoe/browser
 
   deploy-to-gh-pages:
     needs: build

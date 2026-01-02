@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "my-angular-app": {
+    "angular-tactactoe": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "my-angular-app:build:production"
+              "buildTarget": "angular-tactactoe:build:production"
             },
             "development": {
-              "buildTarget": "my-angular-app:build:development"
+              "buildTarget": "angular-tactactoe:build:development"
             }
           },
           "defaultConfiguration": "development"
