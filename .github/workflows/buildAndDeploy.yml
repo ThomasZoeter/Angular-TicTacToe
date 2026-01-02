@@ -37,7 +37,7 @@ jobs:
     # Deploy to the github-pages environment.
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: 'https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
