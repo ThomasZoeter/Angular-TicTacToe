@@ -18,7 +18,7 @@ jobs:
       - name: Install and Build
         run: |
           npm ci
-          npm run build:github-pages
+          ng build --configuration development && cp dist/angular-tictactoe/browser/index.html dist/angular-tictactoe/browser/404.html
 
       - name: Upload files
         id: deployment

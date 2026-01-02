@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "build:github-pages": "ng build --configuration development && cp dist/angular-tictactoe/browser/index.html dist/angular-tictactoe/browser/404.html",
     "test": "ng test"
   },
   "prettier": {
