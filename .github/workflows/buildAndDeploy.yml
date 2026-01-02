@@ -1,25 +1,44 @@
-name: Build and Deploy
+name: Build and deploy to GitHub Pages
 on:
   push:
     branches:
       - main
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set permissions
-      run: chmod +x node_modules/.bin/ng
-    - name: All things angular
-      uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0 ## replace by latest version without it you will see Expected format {org}/{repo}[/path]@ref. Actual 'AhsanAyaz/angular-deploy-gh-pages-actions',Input string was not in a correct format.
-      with:
-        github_access_token: ${{ secrets.TOKEN }} # see the Configuration section for how you can create secrets
-        build_configuration: production  # The build environment for the app. please look configurations in your angular.json
-        base_href: /Angular-TicTacToe/   # make sure this corresponds to https://<your_username>.github.io/<base_href>/
-        deploy_branch: gh-pages # The branch the action should deploy to.
-        angular_dist_build_folder: src # The folder where your project is supposed to be after running ng build by the action.
+      - name: Checkout
+        uses: actions/checkout@v6
 
-permissions:
-  contents: write # Allow write permission to GITHUB_TOKEN to commit to deploy branch.
+      - name: Install NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build:github-pages
+
+      - name: Upload files
+        id: deployment
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/angular-tictactoe/browser
+
+  deploy-to-gh-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+    # Required permissions for upload-pages-artifact.
+    permissions:
+      pages: write
+      id-token: write
+    # Deploy to the github-pages environment.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
