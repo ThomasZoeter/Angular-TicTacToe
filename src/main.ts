@@ -1,5 +1,14 @@
 import {bootstrapApplication, DomSanitizer, SafeStyle} from '@angular/platform-browser';
-import { Component, Directive, Input, HostBinding, HostListener } from '@angular/core';
+import {
+  Component,
+  Directive,
+  Input,
+  HostBinding,
+  HostListener,
+  ViewChildren,
+  QueryList,
+  ElementRef
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Directive({
@@ -50,22 +59,22 @@ export class ClickDirective {
       <!--      </div>-->
       <div #divs class="playfield">
           @for (item of items;track item) {
-              <div [id]="'div-' + item" class="field"> Div {{ item }}</div>
+              <div [id]="'div-' + item" class="field" (click)="fieldClicked(item)">{{ item }}</div>
           }
       </div>
+
   `
 })
 export class App {
   items = [1,2,3,4,5,6,7,8,9]
+  @ViewChildren("divs") divs: QueryList<ElementRef>;
   clicked = 'X'
   currentPlayer = 'X'
   opponent = this.currentPlayer == 'X' ? 'O' : 'X'
   color = 'lightblue'
-  // fieldClicked() {
-  //   this.clicked = 'X'
-  //   this.style.backgroundColor == 'lightblue' ? this.color = 'gray' : this.color = 'lightblue'
-  //
-  //   }
+  fieldClicked(index: number) {
+    console.log(this.divs.get(index))
+    }
 }
 
 bootstrapApplication(App);
