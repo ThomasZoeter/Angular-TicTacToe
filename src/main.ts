@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `<h1>Hello, {{ name }}!</h1>`
 })
-class App { name = 'Angular 20'; }
+class App { name = 'za warudo'; }
 
 bootstrapApplication(App);
