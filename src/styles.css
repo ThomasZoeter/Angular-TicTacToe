@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+.playfield {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(3, 150px);
+}
+
+.field {
+  background-color: lightblue;
+  border: 2px solid black;
+  text-align: center;
+  font-size: 100px;
+}
