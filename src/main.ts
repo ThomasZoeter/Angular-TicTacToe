@@ -14,7 +14,7 @@ export class ClickColorDirective {
   constructor(private doms: DomSanitizer) { }
 
   @HostBinding('style') get myStyle(): SafeStyle {
-    let style : string = this.toggle ? `background: ${this.color}` : 'lightblue';
+    let style : string = this.toggle ? `background-color: ${this.color}` : 'lightblue';
     return this.doms.bypassSecurityTrustStyle(style);
   }
 
@@ -30,8 +30,8 @@ export class ClickColorDirective {
   template: `
       <h3>GAME!</h3>
       <div id="fields" class="playfield">
-          <div id="field1" class="field" clickColor color="'gray'" [style.background-color]="'lightblue'">{{ clicked }}</div>
-          <div id="field2" class="field" clickColor color="'deepskyblue'" [style.background-color]="'lightblue'">{{ clicked }}</div>
+          <div id="field1" class="field" clickColor [style.background-color]="'lightblue'">{{ clicked }}</div>
+          <div id="field2" class="field" clickColor [style.background-color]="'lightblue'">{{ clicked }}</div>
           <div id="field3" class="field">{{ clicked }}</div>
           <div id="field4" class="field">{{ clicked }}</div>
           <div id="field5" class="field">{{ clicked }}</div>
