@@ -50,7 +50,7 @@ export class ClickDirective {
       <!--      </div>-->
       <div #divs class="playfield">
           @for (item of items;track item) {
-              <div [id]="'div-' + item"> Div {{ item }}</div>
+              <div [id]="'div-' + item" class="field"> Div {{ item }}</div>
           }
       </div>
   `
