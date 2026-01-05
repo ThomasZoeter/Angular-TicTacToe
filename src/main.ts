@@ -14,7 +14,7 @@ export class ClickColorDirective {
   constructor(private doms: DomSanitizer) { }
 
   @HostBinding('style') get myStyle(): SafeStyle {
-    let style : string = this.toggle ? `background-color: ${this.color}` : 'background-color: red;';
+    let style : string = this.toggle ? `background-color: ${this.color}` : '';
     return this.doms.bypassSecurityTrustStyle(style);
   }
 
