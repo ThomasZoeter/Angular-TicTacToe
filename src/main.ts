@@ -1,29 +1,37 @@
-import { bootstrapApplication } from '@angular/platform-browser';
+import {bootstrapApplication, DomSanitizer, SafeStyle} from '@angular/platform-browser';
 import { Component, Directive, Input, HostBinding, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Directive({
-  selector: '[Highlight]',
-  standalone: true
+  standalone: true,
+  selector: '[clickColor]'
 })
-export class HighlightDirective {
-  @Input('Highlight') highlightColor = 'deepskyblue';
-  @HostBinding('style.transition') transition = 'background-color 150ms ease-in-out';
-  @HostBinding('style.backgroundColor') bg = 'lightblue';
+export class ClickColorDirective {
 
-  @HostListener('mouseenter') onEnter() { this.bg = this.highlightColor; }
-  @HostListener('mouseleave') onLeave() { this.bg = 'lightblue'; }
+  private toggle: boolean = false;
+  @Input() color: string = 'gray';
+
+  constructor(private doms: DomSanitizer) { }
+
+  @HostBinding('style') get myStyle(): SafeStyle {
+    let style : string = this.toggle ? `background: ${this.color}` : 'lightblue';
+    return this.doms.bypassSecurityTrustStyle(style);
+  }
+
+  @HostListener('click') onClick() {
+    this.toggle = !this.toggle;
+  }
 }
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HighlightDirective],
+  imports: [CommonModule, ClickColorDirective],
   template: `
       <h3>GAME!</h3>
       <div id="fields" class="playfield">
-          <div id="field1" class="field" [Highlight]="'deepskyblue'" [style.background-color]="color" (click)="fieldClicked()">{{ clicked }}</div>
-          <div id="field2" class="field" [Highlight]="'deepskyblue'" [style.background-color]="color" (click)="fieldClicked()">{{ clicked }}</div>
+          <div id="field1" class="field" clickColor color="'gray'" [style.background-color]="'lightblue'">{{ clicked }}</div>
+          <div id="field2" class="field" clickColor color="'deepskyblue'" [style.background-color]="'lightblue'">{{ clicked }}</div>
           <div id="field3" class="field">{{ clicked }}</div>
           <div id="field4" class="field">{{ clicked }}</div>
           <div id="field5" class="field">{{ clicked }}</div>
@@ -35,13 +43,13 @@ export class HighlightDirective {
   `
 })
 export class App {
-  clicked = ''
+  clicked = 'X'
   color = 'lightblue'
-  fieldClicked() {
-    this.clicked = 'X'
-    this.color == 'lightblue' ? this.color = 'gray' : this.color = 'lightblue'
-
-    }
+  // fieldClicked() {
+  //   this.clicked = 'X'
+  //   this.style.backgroundColor == 'lightblue' ? this.color = 'gray' : this.color = 'lightblue'
+  //
+  //   }
 }
 
 bootstrapApplication(App);
