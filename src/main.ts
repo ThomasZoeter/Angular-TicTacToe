@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
   template: `
       <h3>GAME!</h3>
       <div id="fields" class="playfield">
-          <div id="field1" class="field" [style.color]="color" (click)="fieldClicked()">{{ clicked }}</div>
-          <div id="field2" class="field" [style.color]="color" (click)="fieldClicked()">{{ clicked }}</div>
+          <div id="field1" class="field" [style.background-color]="color" ] (click)="fieldClicked()">{{ clicked }}</div>
+          <div id="field2" class="field" [style.background-color]="color" ] (click)="fieldClicked()">{{ clicked }}</div>
           <div id="field3" class="field">{{ clicked }}</div>
           <div id="field4" class="field">{{ clicked }}</div>
           <div id="field5" class="field">{{ clicked }}</div>
@@ -23,8 +23,9 @@ export class App {
   clicked = ''
   color = 'lightblue'
   fieldClicked() {
-    this.color == 'lightblue' ? this.color = 'gray' : this.color = 'lightblue'
     this.clicked = 'YAY'
+    this.color == 'lightblue' ? this.color = 'gray' : this.color = 'lightblue'
+
     }
 }
 
