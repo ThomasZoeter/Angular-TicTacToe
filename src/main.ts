@@ -59,7 +59,7 @@ export class ClickDirective {
       <!--      </div>-->
       <div #divs class="playfield">
           @for (item of items;track item) {
-              <div [id]="'div-' + item" class="field" (click)="fieldClicked(item)">{{ item }}</div>
+              <div [id]="'div-' + item" class="field" (click)="fieldClicked(1)">{{ item }}</div>
           }
       </div>
 
@@ -74,7 +74,7 @@ export class App {
   color = 'lightblue'
   fieldClicked(index: number) {
     // console.log(this.divs.get(index))
-    console.log(this.divs.get(index)?.nativeElement)
+    console.log(this.divs.get(1)?.nativeElement)
     }
 }
 
