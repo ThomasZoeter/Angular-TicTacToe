@@ -21,9 +21,9 @@ import {CommonModule} from '@angular/common';
       <div class="playfield">
           @for (value of valueFields;let idx = $index;track idx) {
               <button
-                      [class.field.notSelected]="value === ''"
-                      [class.field.selected]="value !== ''"
-                      (click)="fieldClicked(idx)"> {{ value }}
+                      [class.field]="value === ''"
+                      [class.selectedField]="value !== ''"
+                      (click)="fieldClicked(idx)"> {{ value }})
               </button>
           }
       </div>
