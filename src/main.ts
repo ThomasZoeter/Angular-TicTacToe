@@ -63,6 +63,9 @@ export class ClickDirective {
               <div [id]="'div-' + item" class="field" (click)="fieldClicked(item)">{{ item }}</div>
           }
       </div>
+      <div>
+          {{ clickedField }}
+      </div>
   `
 })
 export class App {
@@ -75,9 +78,9 @@ export class App {
   clickedField?: number
 
   fieldClicked(index: number) {
-    // console.log(this.divs.get(index))
     this.clickedField = index
     console.log(this.clickedField)
+    console.log(this.divs.get(this.clickedField)?.nativeElement)
   }
 }
 
