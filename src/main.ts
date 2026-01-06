@@ -7,7 +7,7 @@ import {
   HostListener,
   ViewChildren,
   QueryList,
-  ElementRef, numberAttribute
+  ElementRef, numberAttribute, OnChanges, SimpleChanges
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
 
@@ -41,7 +41,7 @@ export class GameEndComponent {
       </div>
   `
 })
-export class App {
+export class App implements OnChanges{
 
   public valueFields = ['', '', '', '', '', '', '', '', '']
   public player = 'X'
@@ -49,6 +49,12 @@ export class App {
   fieldClicked(index: number) {
     this.valueFields[index] = this.player
     this.player = this.player === 'X' ? 'O' : 'X'
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!this.valueFields.includes('',0)) {
+      console.log('The game has ended')
+    }
   }
 }
 
