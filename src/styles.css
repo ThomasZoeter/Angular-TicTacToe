@@ -10,14 +10,14 @@
   border: 2px solid black;
   text-align: center;
   font-size: 100px;
-  background-color: lightblue;
 }
 
-.selectedField {
-  border: 2px solid black;
-  text-align: center;
-  font-size: 100px;
+.field.selected {
   background-color: gray;
+}
+
+.field.notSelected {
+  background-color: lightblue;
 }
 
 .field:hover {
