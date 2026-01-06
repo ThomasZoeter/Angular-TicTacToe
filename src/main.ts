@@ -29,9 +29,9 @@ export class GameEndComponent {
 
       <div class="playfield">
           @for (value of valueFields;let idx = $index;track idx) {
-              <button [disabled]="value !== ''"
-                      [class.field]="value === ''"
-                      [class.selectedField]="value !== ''"
+              <button [disabled]="fieldFilled"
+                      [class.field]="!fieldFilled"
+                      [class.selectedField]="fieldFilled"
                       (click)="fieldClicked(idx)"> {{ value }}
               </button>
           }
@@ -46,9 +46,11 @@ export class App {
   public valueFields = ['', '', '', '', '', '', '', '', '']
   public player = 'X'
   public disabled= false
+  public fieldFilled = false;
 
   fieldClicked(index: number) {
     this.valueFields[index] = this.player
+    this.fieldFilled = true;
     this.player = this.player === 'X' ? 'O' : 'X'
     this.disabled = this.valueFields[index] !== ''
   }
