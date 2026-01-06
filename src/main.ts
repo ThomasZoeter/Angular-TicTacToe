@@ -14,7 +14,9 @@ import {CommonModule} from '@angular/common';
 @Component({
   selector: 'game-ends',
   standalone: true,
-  template: `<p>The winner is {{ winner }}</p>`
+  template: `
+      <p>The winner is {{ winner }}</p>
+  `
 })
 export class GameEndComponent {
   @Input() winner = '';
@@ -26,6 +28,7 @@ export class GameEndComponent {
   imports: [CommonModule],
   template: `
       <h3>GAME!</h3>
+      <h4>Current player: {{ player }}</h4>
 
       <div class="playfield">
           @for (value of valueFields;let idx = $index;track idx) {
@@ -36,21 +39,20 @@ export class GameEndComponent {
               </button>
           }
       </div>
-      <div>
-          {{ player }}
-      </div>
   `
 })
 export class App {
 
   public valueFields = ['', '', '', '', '', '', '', '', '']
   public player = 'X'
+  public disabled= false
   public fieldFilled = false;
 
   fieldClicked(index: number) {
     this.valueFields[index] = this.player
-    this.fieldFilled = this.valueFields[index] !== ''
+    this.fieldFilled = true;
     this.player = this.player === 'X' ? 'O' : 'X'
+    this.disabled = this.valueFields[index] !== ''
   }
 }
 
