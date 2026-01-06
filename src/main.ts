@@ -74,7 +74,7 @@ export class App {
   color = 'lightblue'
   fieldClicked(index: number) {
     // console.log(this.divs.get(index))
-    this.divs.forEach((div: ElementRef) => console.log(div.nativeElement));
+    console.log(this.divs.get(index)?.nativeElement)
     }
 }
 
