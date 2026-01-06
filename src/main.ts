@@ -7,9 +7,9 @@ import {
   HostListener,
   ViewChildren,
   QueryList,
-  ElementRef
+  ElementRef, numberAttribute
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 
 @Directive({
   standalone: true,
@@ -20,10 +20,11 @@ export class ClickColorDirective {
   private toggle: boolean = false;
   @Input() color: string = 'gray';
 
-  constructor(private doms: DomSanitizer) { }
+  constructor(private doms: DomSanitizer) {
+  }
 
   @HostBinding('style') get myStyle(): SafeStyle {
-    let style : string = this.toggle ? `background-color: ${this.color}` : '';
+    let style: string = this.toggle ? `background-color: ${this.color}` : '';
     return this.doms.bypassSecurityTrustStyle(style);
   }
 
@@ -59,23 +60,25 @@ export class ClickDirective {
       <!--      </div>-->
       <div #divs class="playfield">
           @for (item of items;track item) {
-              <div [id]="'div-' + item" class="field" (click)="fieldClicked(1)">{{ item }}</div>
+              <div [id]="'div-' + item" class="field" (click)="fieldClicked(item)">{{ item }}</div>
           }
       </div>
-
   `
 })
 export class App {
-  items = [1,2,3,4,5,6,7,8,9]
+  items = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   @ViewChildren("divs") divs!: QueryList<ElementRef>
   clicked = 'X'
   currentPlayer = 'X'
   opponent = this.currentPlayer == 'X' ? 'O' : 'X'
   color = 'lightblue'
+  clickedField?: number
+
   fieldClicked(index: number) {
     // console.log(this.divs.get(index))
-    console.log(this.divs.get(1)?.nativeElement)
-    }
+    this.clickedField = index
+    console.log(this.clickedField)
+  }
 }
 
 bootstrapApplication(App);
