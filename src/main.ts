@@ -52,7 +52,8 @@ export class App implements OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.valueFields.includes('',0)) {
+    console.log('The game is running')
+    if (this.valueFields.lastIndexOf('') < 0) {
       console.log('The game has ended')
     }
   }
