@@ -60,7 +60,9 @@ export class ClickDirective {
       <!--      </div>-->
       <div #divs class="playfield">
           @for (item of items;track item) {
-              <div [id]="'div-' + item" class="field" [class.selectedField]="item === clickedField" (click)="fieldClicked(item)">{{ currentPlayer }}</div>
+              <div [id]="'div-' + item" class="field" [class.selectedField]="item === clickedField" [style.background-color]="listOfFieldsThatHaveBeenClicked[item] ? 'gray':'lightblue'"
+                   (click)="fieldClicked(item)">{{ currentPlayer }}
+              </div>
           }
       </div>
       <div>
@@ -71,6 +73,7 @@ export class ClickDirective {
 export class App {
   items = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   @ViewChildren("divs") divs!: QueryList<ElementRef>
+  public listOfFieldsThatHaveBeenClicked=new Array<boolean>(10);
   clicked = 'X'
   currentPlayer = 'X'
   opponent = this.currentPlayer == 'X' ? 'O' : 'X'
@@ -79,9 +82,7 @@ export class App {
 
   fieldClicked(index: number) {
     this.clickedField = index
-    console.log(this.clickedField)
-    // console.log(this.divs.get(this.clickedField)?.nativeElement)
-    this.divs.forEach((div: ElementRef) => console.log(div.nativeElement));
+    this.listOfFieldsThatHaveBeenClicked[index] = true;
   }
 }
 
