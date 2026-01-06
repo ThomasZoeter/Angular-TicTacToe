@@ -50,9 +50,9 @@ export class App {
 
   fieldClicked(index: number) {
     this.valueFields[index] = this.player
-    this.fieldFilled = true;
+    this.fieldFilled = this.valueFields[index] !== '';
     this.player = this.player === 'X' ? 'O' : 'X'
-    this.disabled = this.valueFields[index] !== ''
+    // this.disabled = this.valueFields[index] !== ''
   }
 }
 
