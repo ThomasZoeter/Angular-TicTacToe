@@ -13,6 +13,10 @@
   background-color: lightblue;
 }
 
+.field:hover{
+  background-color: deepskyblue;
+}
+
 .selectedField {
   border: 2px solid black;
   text-align: center;
