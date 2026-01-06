@@ -18,7 +18,7 @@ jobs:
       - name: Install and Build
         run: |
           npm ci
-          npm run build:github-pages
+          npm run build:production
 
       - name: Upload files
         id: deployment
@@ -30,11 +30,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: success()
-    # Required permissions for upload-pages-artifact.
     permissions:
       pages: write
       id-token: write
-    # Deploy to the github-pages environment.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -73,7 +73,8 @@ export class App {
   opponent = this.currentPlayer == 'X' ? 'O' : 'X'
   color = 'lightblue'
   fieldClicked(index: number) {
-    console.log(this.divs.get(index))
+    // console.log(this.divs.get(index))
+    this.divs.forEach((div: ElementRef) => console.log(div.nativeElement));
     }
 }
 
