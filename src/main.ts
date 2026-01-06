@@ -60,7 +60,7 @@ export class ClickDirective {
       <!--      </div>-->
       <div #divs class="playfield">
           @for (item of items;track item) {
-              <div [id]="'div-' + item" class="field" (click)="fieldClicked(item)">{{ item }}</div>
+              <div [id]="'div-' + item" [class.field]="item === clickedField" (click)="fieldClicked(item)">{{ item }}</div>
           }
       </div>
       <div>
@@ -80,7 +80,8 @@ export class App {
   fieldClicked(index: number) {
     this.clickedField = index
     console.log(this.clickedField)
-    console.log(this.divs.get(this.clickedField)?.nativeElement)
+    // console.log(this.divs.get(this.clickedField)?.nativeElement)
+    this.divs.forEach((div: ElementRef) => console.log(div.nativeElement));
   }
 }
 
