@@ -10,16 +10,17 @@
   border: 2px solid black;
   text-align: center;
   font-size: 100px;
-}
-
-.field:hover{
-  background-color: deepskyblue;
+  background-color: lightblue;
 }
 
 .selectedField {
   border: 2px solid black;
   text-align: center;
   font-size: 100px;
+  background-color: gray;
+}
+
+.field:hover {
   background-color: deepskyblue;
 }
 

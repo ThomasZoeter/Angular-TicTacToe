@@ -20,9 +20,10 @@ import {CommonModule} from '@angular/common';
 
       <div class="playfield">
           @for (value of valueFields;let idx = $index;track idx) {
-              <button class="field"
-                      [style.background-color] = "value !== '' ? 'gray':'lightblue'"
-                      (click)="fieldClicked(idx)"> {{ value }}
+              <button
+                      [class.field]="value === ''"
+                      [class.selectedField]="value !== ''"
+                      (click)="fieldClicked(idx)"> {{ value }})
               </button>
           }
       </div>
