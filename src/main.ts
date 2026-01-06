@@ -11,82 +11,35 @@ import {
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-@Directive({
-  standalone: true,
-  selector: '[clickColor]'
-})
-export class ClickColorDirective {
-
-  private toggle: boolean = false;
-  @Input() color: string = 'gray';
-
-  constructor(private doms: DomSanitizer) {
-  }
-
-  @HostBinding('style') get myStyle(): SafeStyle {
-    let style: string = this.toggle ? `background-color: ${this.color}` : '';
-    return this.doms.bypassSecurityTrustStyle(style);
-  }
-
-  @HostListener('click') onClick() {
-    this.toggle = !this.toggle;
-  }
-}
-
-@Directive({
-  standalone: true,
-  selector: '[clicked]'
-})
-export class ClickDirective {
-
-}
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ClickColorDirective],
+  imports: [CommonModule],
   template: `
       <h3>GAME!</h3>
-      <!--      <div id="fields" class="playfield">-->
-      <!--          <div id="field1" class="field" clickColor >{{ clicked }}</div>-->
-      <!--          <div id="field2" class="field" clickColor [style.background-color]="'lightblue'">{{ clicked }}</div>-->
-      <!--          <div id="field3" class="field">{{ clicked }}</div>-->
-      <!--          <div id="field4" class="field">{{ clicked }}</div>-->
-      <!--          <div id="field5" class="field">{{ clicked }}</div>-->
-      <!--          <div id="field6" class="field">{{ clicked }}</div>-->
-      <!--          <div id="field7" class="field">{{ clicked }}</div>-->
-      <!--          <div id="field8" class="field">{{ clicked }}</div>-->
-      <!--          <div id="field9" class="field">{{ clicked }}</div>-->
-      <!--      </div>-->
+
       <div #divs class="playfield">
-          @for (item of items;track item) {
-              <div [id]="'div-' + item" class="field" [class.selectedField]="item === clickedField" [style.background-color]="listOfFieldsThatHaveBeenClicked[item] ? 'gray':'lightblue'"
-                   (click)="fieldClicked(item)"> {{ contentField }}
+          @for (item of valueFields; let idx = $index; track idx) {
+              <div [id]="'div-' + idx" class="field"
+                   [style.background-color]="item !== '' ? 'gray':'lightblue'"
+                   (click)="fieldClicked(idx)"> {{ item }}
               </div>
           }
       </div>
       <div>
-          {{ clickedField }}
+          {{ player }}
       </div>
   `
 })
 export class App {
-  items = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  @ViewChildren("divs") divs!: QueryList<ElementRef>
-  public listOfFieldsThatHaveBeenClicked=new Array<boolean>(10);
-  currentPlayer = 'X'
-  contentField = ''
-  opponent = this.currentPlayer == 'X' ? 'O' : 'X'
-  color = 'lightblue'
-  clickedField?: number
+
+  public valueFields = ['', '', '', '', '', '', '', '', '']
+  public player = 'X'
+
 
   fieldClicked(index: number) {
-    this.clickedField = index
-    this.listOfFieldsThatHaveBeenClicked[index] = true;
-    // const elementTwo = this.divs.filter((element, index) => element.name === 'John');
-    // this.divs.find((_, i) => i == x)
-    console.log(this.divs)
-
+    this.valueFields[index] = this.player
+    this.player = this.player === 'X' ? 'O' : 'X'
   }
 }
 
