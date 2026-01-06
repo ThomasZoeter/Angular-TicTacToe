@@ -18,12 +18,12 @@ import {CommonModule} from '@angular/common';
   template: `
       <h3>GAME!</h3>
 
-      <div #divs class="playfield">
-          @for (item of valueFields; let idx = $index; track idx) {
-              <div [id]="'div-' + idx" class="field"
-                   [style.background-color]="item !== '' ? 'gray':'lightblue'"
-                   (click)="fieldClicked(idx)"> {{ item }}
-              </div>
+      <div class="playfield">
+          @for (value of valueFields;let idx = $index;track idx) {
+              <button class="field"
+                      [style.background-color] = "value !== '' ? 'gray':'lightblue'"
+                      (click)="fieldClicked(idx)"> {{ value }}
+              </button>
           }
       </div>
       <div>
@@ -35,7 +35,6 @@ export class App {
 
   public valueFields = ['', '', '', '', '', '', '', '', '']
   public player = 'X'
-
 
   fieldClicked(index: number) {
     this.valueFields[index] = this.player
