@@ -39,6 +39,10 @@ export class GameEndComponent {
               </button>
           }
       </div>
+      <div> @if (valueFields.lastIndexOf('') < 0) {
+          <h1>The game has ended</h1>
+      }
+      </div>
   `
 })
 export class App implements OnChanges{
