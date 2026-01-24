@@ -7,5 +7,5 @@ export const routes: Routes = [
   { path: 'start-game', component: StartGame },
   { path: '', redirectTo: '/start-game', pathMatch: 'full'},
   { path: 'game', component: Game },
-  { path: 'game-ended', component: GameEnded }
+  { path: 'game-ended', component: GameEnded },
 ];

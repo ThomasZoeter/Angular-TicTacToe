@@ -6,9 +6,17 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ResultService {
   private gameResult = new BehaviorSubject<string>('Draw');
-  currentData = this.gameResult.asObservable();
+  private winningRow = new BehaviorSubject<number[] | null>([]);
+  currentResultData = this.gameResult.asObservable();
+  currentWinningRowData = this.winningRow.asObservable();
 
-  gameStateAfterEnd(result: string) {
-    this.gameResult.next(result);
+  gameStateAfterEnd(resultState: string) {
+    this.gameResult.next(resultState);
   }
+
+  getWinningRow(resultRow: number[] | null) {
+    this.winningRow.next(resultRow);
+  }
+
+
 }

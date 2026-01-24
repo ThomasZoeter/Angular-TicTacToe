@@ -1,7 +1,23 @@
 button {
-  font-size: 160px;
+  font-size: 50px;
   background-color: coral;
   color: blueviolet;
   text-align: center;
   border: chartreuse;
+}
+
+.center {
+  height: 700px;
+  width: 600px;
+  background: yellow;
+  border-color: blue;
+  border-style: solid;
+  border-width: 10px;
+  text-align: center;
+
+  position: fixed;
+  top: 30%;
+  left: 45%;
+  margin-top: -100px;
+  margin-left: -200px;
 }
