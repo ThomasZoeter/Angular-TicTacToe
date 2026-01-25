@@ -6,9 +6,32 @@
   grid-template-rows: repeat(3, 150px);
 }
 
-.field {
+.fieldWin {
   border: 2px solid black;
   text-align: center;
   font-size: 100px;
   background-color: green;
+}
+
+.fieldLost {
+  border: 2px solid black;
+  text-align: center;
+  font-size: 100px;
+  background-color: red;
+}
+
+.center {
+  height: 700px;
+  width: 600px;
+  background: yellow;
+  border-color: blue;
+  border-style: solid;
+  border-width: 10px;
+  text-align: center;
+
+  position: fixed;
+  top: 30%;
+  left: 45%;
+  margin-top: -100px;
+  margin-left: -200px;
 }

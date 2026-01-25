@@ -22,9 +22,7 @@ import {GameEnded} from '../game-ended-view/game-ended-view';
   template: `
       <div class="center">
           <h3>GAME!</h3>
-          <h4>Current player: {{ whosTurnIsIt }}</h4>
-
-
+          <h4>Current player: {{ whoseTurnIsIt }}</h4>
           <div class="playfield">
               @for (value of valueFields;let idx = $index;track idx) {
                   <button [disabled]="value !== ''"
@@ -43,8 +41,8 @@ export class Game implements OnInit, DoCheck {
 
   public valueFields = ['', '', '', '', '', '', '', '', '']
   public player = ''
-  public whosTurnIsIt = ''
-  public resultGame = 'Draw'
+  public whoseTurnIsIt = ''
+  public resultGame: boolean | null = null
   public winningRow: number[] | null = null
   public addScreen = false
 
@@ -52,13 +50,13 @@ export class Game implements OnInit, DoCheck {
   }
 
   fieldClicked(index: number) {
-    if (this.whosTurnIsIt === this.player) {
-      this.valueFields[index] = this.whosTurnIsIt
-      this.whosTurnIsIt = this.whosTurnIsIt === 'X' ? 'O' : 'X'
+    if (this.whoseTurnIsIt === this.player) {
+      this.valueFields[index] = this.whoseTurnIsIt
+      this.whoseTurnIsIt = this.whoseTurnIsIt === 'X' ? 'O' : 'X'
     }
   }
 
-  public gameFinished(result: string, winningRow: number[] | null) {
+  public gameFinished(result: boolean | null, winningRow: number[] | null) {
     this.resultGame = result
     this.resultService.gameStateAfterEnd(this.resultGame)
     this.winningRow = winningRow
@@ -87,7 +85,7 @@ export class Game implements OnInit, DoCheck {
     if(this.winconditionCheck(0,4,8,input) !== null) {
       return this.winconditionCheck(0,4,8,input)
     }
-    if(this.winconditionCheck(0,1,2,input) !== null) {
+    if(this.winconditionCheck(2,4,6,input) !== null) {
       return this.winconditionCheck(2,4,6,input)
     }
     return null;
@@ -107,7 +105,7 @@ export class Game implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.playerService.currentData.subscribe(player => this.player = player)
-    this.whosTurnIsIt = this.player
+    this.whoseTurnIsIt = this.player
   }
 
   ngDoCheck() {
@@ -117,22 +115,21 @@ export class Game implements OnInit, DoCheck {
       this.router.navigate(['/game-ended'])
     }
     if (this.weGotAWinner(this.valueFields) !== null) { //check if I win
-      console.log("I win!")
-      this.resultGame = this.player
+      this.resultGame = true
       this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
       this.router.navigate(['/game-ended'])
       return //otherwise the next if statement will also be executed
     }
-    if (this.whosTurnIsIt !== this.player) { //opponent's turn
+    if (this.whoseTurnIsIt !== this.player) { //opponent's turn
       // await new Promise(f => setTimeout(f, 3000));
-      this.valueFields[this.valueFields.lastIndexOf('')] = this.whosTurnIsIt
+      this.valueFields[this.valueFields.lastIndexOf('')] = this.whoseTurnIsIt
       if (this.weGotAWinner(this.valueFields) !== null) { //check if opponent wins
         console.log("Opponent wins!")
-        this.resultGame = this.player === 'X' ? 'O' : 'X'
+        this.resultGame = false
         this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
         this.router.navigate(['/game-ended'])
       }
-      this.whosTurnIsIt = this.whosTurnIsIt === 'X' ? 'O' : 'X' //switch player
+      this.whoseTurnIsIt = this.whoseTurnIsIt === 'X' ? 'O' : 'X' //switch player
     }
   }
 }
