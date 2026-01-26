@@ -1,5 +1,6 @@
 button {
   font-size: 50px;
+  font-family: "Javanese Text", ui-serif;
   background-color: coral;
   color: blueviolet;
   text-align: center;
@@ -20,10 +21,17 @@ button {
   }
 }
 
+h1 {
+  font-family: courier, fantasy;
+}
+
+button:hover {
+  background-color: red;
+}
+
 .center {
   height: 700px;
   width: 600px;
-  background: yellow;
   border-color: blue;
   border-style: solid;
   border-width: 10px;
@@ -31,7 +39,6 @@ button {
 
   position: fixed;
   top: 30%;
-  left: 45%;
-  margin-top: -100px;
-  margin-left: -200px;
+  left: 38%;
+
 }

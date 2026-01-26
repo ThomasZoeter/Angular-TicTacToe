@@ -11,22 +11,23 @@ import {PlayerService} from '../services/choose-player.service';
     RouterLink,
   ],
   template: `
-      <div class="center" animate.enter="enter-animation" >
-          <h1> Tic-Tac-Toe!</h1>
+      <h1 style="font-size:60px;text-align: center;">TicTacToe!</h1>
+      <div class="center" animate.enter="enter-animation">
           <button (click)="toggleGameStart()">Start new game</button>
           @if (newGameHasBeenStarted()) {
-          <div animate.enter="enter-animation">
-              <p>Choose which side you want to play:</p>
-              <button (click)="changePlayer('X')">X</button>
-              |
-              <button (click)="changePlayer('O')">O</button>
+              <div animate.enter="enter-animation">
+                  <h1>Choose which side you want to play:</h1>
+                  <button (click)="changePlayer('X')">X</button>
+                  |
+                  <button (click)="changePlayer('O')">O</button>
 
-          </div> }
+              </div>
+          }
           @if (playerHasBeenChosen()) {
-          <div animate.enter="enter-animation">
-              <h1>Side chosen: {{ player }}</h1>
-              <button routerLink="/game"> Start Game</button>
-          </div>
+              <div animate.enter="enter-animation">
+                  <h1>Side chosen: {{ player }}</h1>
+                  <button routerLink="/game"> Start Game</button>
+              </div>
           }
       </div>
   `

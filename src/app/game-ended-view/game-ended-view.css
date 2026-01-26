@@ -4,6 +4,7 @@
   grid-gap: 10px;
   grid-template-columns: repeat(3, 150px);
   grid-template-rows: repeat(3, 150px);
+  place-self: center;
 }
 
 .fieldWin {
