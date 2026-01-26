@@ -1,9 +1,7 @@
 import {
   Component, DoCheck,
-  KeyValueDiffers,
-  OnChanges,
   OnInit,
-  SimpleChanges
+  ChangeDetectorRef
 } from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {PlayerService} from '../services/choose-player.service';
@@ -21,11 +19,10 @@ import {GameEnded} from '../game-ended-view/game-ended-view';
   ],
   template: `
       <div class="center" animate.enter="enter-animation">
-          <h3>GAME!</h3>
-          <h4>Current player: {{ whoseTurnIsIt }}</h4>
+          <h1>Current player: {{ whoseTurnIsIt }}</h1>
           <div class="playfield">
               @for (value of valueFields;let idx = $index;track idx) {
-                  <button [disabled]="value !== ''"
+                  <button [disabled]="value !== '' || (whoseTurnIsIt) !== (player) "
                           [class.field]="value === ''"
                           [class.selectedField]="value !== ''"
                           (click)="fieldClicked(idx)"> {{ value }}
@@ -33,26 +30,27 @@ import {GameEnded} from '../game-ended-view/game-ended-view';
               }
           </div>
       </div>
-
-
   `
 })
 export class Game implements OnInit, DoCheck {
 
   public valueFields = ['', '', '', '', '', '', '', '', '']
   public player = ''
+  public opponent = ''
   public whoseTurnIsIt = ''
   public resultGame: boolean | null = null
   public winningRow: number[] | null = null
-  public addScreen = false
 
-  constructor(private playerService: PlayerService, private resultService: ResultService, private router: Router ) {
+  constructor(private playerService: PlayerService,
+              private resultService: ResultService,
+              private router: Router,
+              private ref: ChangeDetectorRef) {
   }
 
   fieldClicked(index: number) {
     if (this.whoseTurnIsIt === this.player) {
-      this.valueFields[index] = this.whoseTurnIsIt
-      this.whoseTurnIsIt = this.whoseTurnIsIt === 'X' ? 'O' : 'X'
+      this.valueFields[index] = this.player
+      this.whoseTurnIsIt = this.opponent
     }
   }
 
@@ -63,35 +61,76 @@ export class Game implements OnInit, DoCheck {
     this.resultService.getWinningRow(this.winningRow)
   }
 
+  private opponentsTurn() {
+    this.valueFields[this.valueFields.lastIndexOf('')] = this.whoseTurnIsIt
+    this.whoseTurnIsIt = this.player
+    this.ref.detectChanges() // update view after array has changed
+    if (this.weGotAWinner(this.valueFields) !== null) { //check if opponent wins
+      this.resultGame = false
+      this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
+      this.router.navigate(['/game-ended'])
+    }
+
+  }
+
+  private hasGameEnded(): boolean {
+    if (this.valueFields.lastIndexOf('') < 0) { //Check if game is a draw
+      this.gameFinished(this.resultGame, null)
+      this.router.navigate(['/game-ended'])
+      return true
+    }
+    if (this.weGotAWinner(this.valueFields) !== null) { //check if I win
+      this.resultGame = true
+      this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
+      this.router.navigate(['/game-ended'])
+      return true
+    }
+    return false
+  }
+
+  ngOnInit(): void {
+    this.playerService.currentData.subscribe(player => this.player = player)
+    this.whoseTurnIsIt = this.player
+    this.opponent = this.player === 'X' ? 'O' : 'X'
+  }
+
+  ngDoCheck() {
+    if (!this.hasGameEnded()) {
+      if (this.whoseTurnIsIt !== this.player) { //opponent's turn
+        setTimeout(() => this.opponentsTurn(), 2000)
+      }
+    }
+  }
+
   private weGotAWinner(input: string[]): number[] | null {
-    if(this.winconditionCheck(0,1,2,input) !== null) {
-      return this.winconditionCheck(0,1,2,input)
+    if (this.winConditionCheck(0, 1, 2, input) !== null) {
+      return this.winConditionCheck(0, 1, 2, input)
     }
-    if(this.winconditionCheck(3,4,5,input) !== null) {
-      return this.winconditionCheck(3,4,5,input)
+    if (this.winConditionCheck(3, 4, 5, input) !== null) {
+      return this.winConditionCheck(3, 4, 5, input)
     }
-    if(this.winconditionCheck(6,7,8,input) !== null) {
-      return this.winconditionCheck(6,7,8,input)
+    if (this.winConditionCheck(6, 7, 8, input) !== null) {
+      return this.winConditionCheck(6, 7, 8, input)
     }
-    if(this.winconditionCheck(0,3,6,input) !== null) {
-      return this.winconditionCheck(0,3,6,input)
+    if (this.winConditionCheck(0, 3, 6, input) !== null) {
+      return this.winConditionCheck(0, 3, 6, input)
     }
-    if(this.winconditionCheck(1,4,7,input) !== null) {
-      return this.winconditionCheck(1,4,7,input)
+    if (this.winConditionCheck(1, 4, 7, input) !== null) {
+      return this.winConditionCheck(1, 4, 7, input)
     }
-    if(this.winconditionCheck(2,5,8,input) !== null) {
-      return this.winconditionCheck(2,5,8,input)
+    if (this.winConditionCheck(2, 5, 8, input) !== null) {
+      return this.winConditionCheck(2, 5, 8, input)
     }
-    if(this.winconditionCheck(0,4,8,input) !== null) {
-      return this.winconditionCheck(0,4,8,input)
+    if (this.winConditionCheck(0, 4, 8, input) !== null) {
+      return this.winConditionCheck(0, 4, 8, input)
     }
-    if(this.winconditionCheck(2,4,6,input) !== null) {
-      return this.winconditionCheck(2,4,6,input)
+    if (this.winConditionCheck(2, 4, 6, input) !== null) {
+      return this.winConditionCheck(2, 4, 6, input)
     }
     return null;
   }
 
-  private winconditionCheck(n1: number, n2: number, n3: number, input: string[]): number[] | null {
+  private winConditionCheck(n1: number, n2: number, n3: number, input: string[]): number[] | null {
     const winningRow: number[] = []
     if (input[n1] === input[n2] && input[n2] === input[n3] && input[n1] !== '') {
       winningRow[0] = n1
@@ -100,36 +139,5 @@ export class Game implements OnInit, DoCheck {
       return winningRow
     }
     return null
-  }
-
-
-  ngOnInit(): void {
-    this.playerService.currentData.subscribe(player => this.player = player)
-    this.whoseTurnIsIt = this.player
-  }
-
-  ngDoCheck() {
-    if (this.valueFields.lastIndexOf('') < 0) { //Check if game is a draw
-      this.addScreen = true
-      this.gameFinished(this.resultGame, null)
-      this.router.navigate(['/game-ended'])
-    }
-    if (this.weGotAWinner(this.valueFields) !== null) { //check if I win
-      this.resultGame = true
-      this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
-      this.router.navigate(['/game-ended'])
-      return //otherwise the next if statement will also be executed
-    }
-    if (this.whoseTurnIsIt !== this.player) { //opponent's turn
-      // await new Promise(f => setTimeout(f, 3000));
-      this.valueFields[this.valueFields.lastIndexOf('')] = this.whoseTurnIsIt
-      if (this.weGotAWinner(this.valueFields) !== null) { //check if opponent wins
-        console.log("Opponent wins!")
-        this.resultGame = false
-        this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
-        this.router.navigate(['/game-ended'])
-      }
-      this.whoseTurnIsIt = this.whoseTurnIsIt === 'X' ? 'O' : 'X' //switch player
-    }
   }
 }
