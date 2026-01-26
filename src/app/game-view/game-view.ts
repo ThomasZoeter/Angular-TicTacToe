@@ -74,14 +74,14 @@ export class Game implements OnInit, DoCheck {
   }
 
   private hasGameEnded(): boolean {
-    if (this.valueFields.lastIndexOf('') < 0) { //Check if game is a draw
-      this.gameFinished(this.resultGame, null)
-      this.router.navigate(['/game-ended'])
-      return true
-    }
     if (this.weGotAWinner(this.valueFields) !== null) { //check if I win
       this.resultGame = true
       this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
+      this.router.navigate(['/game-ended'])
+      return true
+    }
+    if (this.valueFields.lastIndexOf('') < 0) { //Check if game is a draw
+      this.gameFinished(this.resultGame, null)
       this.router.navigate(['/game-ended'])
       return true
     }
