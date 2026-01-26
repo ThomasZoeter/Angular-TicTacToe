@@ -20,7 +20,7 @@ import {GameEnded} from '../game-ended-view/game-ended-view';
     GameEnded
   ],
   template: `
-      <div class="center">
+      <div class="center" animate.enter="enter-animation">
           <h3>GAME!</h3>
           <h4>Current player: {{ whoseTurnIsIt }}</h4>
           <div class="playfield">

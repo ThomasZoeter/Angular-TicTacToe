@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {PlayerService} from '../services/choose-player.service';
 
@@ -11,10 +11,10 @@ import {PlayerService} from '../services/choose-player.service';
     RouterLink,
   ],
   template: `
-      <div class="center">
+      <div class="center" animate.enter="enter-animation" >
           <h1> Tic-Tac-Toe!</h1>
           <button (click)="toggleGameStart()">Start new game</button>
-          @if (gameHasBeenStarted()) {
+          @if (newGameHasBeenStarted()) {
           <div animate.enter="enter-animation">
               <p>Choose which side you want to play:</p>
               <button (click)="changePlayer('X')">X</button>
@@ -31,16 +31,19 @@ import {PlayerService} from '../services/choose-player.service';
       </div>
   `
 })
-export class StartGame {
+export class StartGame implements OnInit{
   constructor(private playerService: PlayerService) {
   }
 
+  ngOnInit(): void {
+  }
+
   player = ''
-  gameHasBeenStarted = signal(false)
+  newGameHasBeenStarted = signal(false)
   playerHasBeenChosen = signal(false)
 
   toggleGameStart() {
-    this.gameHasBeenStarted.update((gameHasBeenStarted) => !gameHasBeenStarted);
+    this.newGameHasBeenStarted.update((newGameHasBeenStarted) => !newGameHasBeenStarted);
   }
 
 
@@ -49,4 +52,6 @@ export class StartGame {
     this.playerService.choosePlayer(playerChosen)
     this.playerHasBeenChosen.update((playerHasBeenChosen) => !playerHasBeenChosen);
   }
+
+
 }

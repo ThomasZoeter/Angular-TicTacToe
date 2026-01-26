@@ -11,8 +11,8 @@ import {ResultService} from '../services/result-game.service';
     RouterOutlet,
   ],
   template: `
-      <div class="center">
-          <h1>Game ended. Result: {{ resultMessageString }}</h1>
+      <div class="center" animate.enter="enter-animation">
+          <h1>Game ended. {{ resultMessageString }}</h1>
           <div> @if (winningRowString !== '') {
               <h1> WinningRow: {{ winningRowString }}</h1>
           }
@@ -40,7 +40,6 @@ export class GameEnded implements OnInit {
   }
 
   public createResultMessage() {
-    console.log("Try: " + this.result)
     if (this.result) {
       this.resultMessageString = 'You win!'
     } else if (!this.result) {
@@ -53,7 +52,6 @@ export class GameEnded implements OnInit {
   ngOnInit(): void {
     this.resultService.currentResultData.subscribe(resultState => this.result = resultState)
     this.resultService.currentWinningRowData.subscribe(resultRow => this.winningRow = resultRow)
-    console.log(this.result)
     this.createResultMessage()
     if (this.winningRow !== null) {
       this.winningRowString = this.winningRow[0] + ', ' + this.winningRow[1] + ', ' + this.winningRow[2]
