@@ -17,9 +17,8 @@ import {PlayerService} from '../services/choose-player.service';
           @if (newGameHasBeenStarted()) {
               <div animate.enter="enter-animation">
                   <h1>Choose which side you want to play:</h1>
-                  <button (click)="changePlayer('X')">X</button>
-                  |
-                  <button (click)="changePlayer('O')">O</button>
+                  <button class="sides" (click)="changePlayer('X')">X</button>
+                  <button class="sides" (click)="changePlayer('O')">O</button>
 
               </div>
           }

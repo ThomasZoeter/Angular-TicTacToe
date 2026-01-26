@@ -5,6 +5,22 @@ button {
   color: blueviolet;
   text-align: center;
   border: chartreuse;
+  margin-top: 20px;
+  width: 500px;
+}
+
+.sides {
+  font-size: 50px;
+  font-family: "Javanese Text", ui-serif;
+  background-color: coral;
+  color: blueviolet;
+  text-align: center;
+  border: chartreuse;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 200px;
+  height: 200px;
 }
 
 .enter-animation {
@@ -30,15 +46,16 @@ button:hover {
 }
 
 .center {
-  height: 700px;
-  width: 600px;
-  border-color: blue;
+  height: 1000px;
+  width: 850px;
+  background: rosybrown;
+  border-color: firebrick;
   border-style: solid;
   border-width: 10px;
   text-align: center;
 
   position: fixed;
-  top: 30%;
-  left: 38%;
+  top: 15%;
+  left: 33%;
 
 }

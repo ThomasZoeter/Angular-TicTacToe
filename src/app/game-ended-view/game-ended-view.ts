@@ -13,10 +13,6 @@ import {ResultService} from '../services/result-game.service';
   template: `
       <div class="center" animate.enter="enter-animation">
           <h1>Game ended. {{ resultMessageString }}</h1>
-          <div> @if (winningRowString !== '') {
-              <h1> WinningRow: {{ winningRowString }}</h1>
-          }
-          </div>
           <div class="playfield">
               @for (value of valueFields;let idx = $index;track idx) {
                   <button [disabled]=true
@@ -25,8 +21,9 @@ import {ResultService} from '../services/result-game.service';
                   </button>
               }
           </div>
-          <button routerLink="/start-game">Start new game!</button>
+          <button class="start-new-game" routerLink="/start-game">Start new game!</button>
       </div>
+
   `
 })
 export class GameEnded implements OnInit {
