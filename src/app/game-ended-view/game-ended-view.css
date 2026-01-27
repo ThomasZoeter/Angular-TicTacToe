@@ -21,8 +21,25 @@ button {
 
 .start-new-game {
   visibility: visible;
-  font-size: 50px;
+  font-size: 40px;
   margin-top: 30px;
+  font-family: "Javanese Text", ui-serif;
+  background-color: coral;
+  color: blueviolet;
+  text-align: center;
+  border: chartreuse;
+  width: 500px;
+  height: 75px
+}
+
+.start-new-game:hover {
+  background-color: orangered;
+}
+
+h1 {
+  font-family: courier, fantasy;
+  font-size:60px;
+  text-align: center;
 }
 
 .fieldLost {
@@ -49,6 +66,7 @@ button {
 .enter-animation {
   animation: slide-fade 1s;
 }
+
 @keyframes slide-fade {
   from {
     opacity: 0;

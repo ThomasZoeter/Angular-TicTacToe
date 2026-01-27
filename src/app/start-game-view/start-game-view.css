@@ -39,10 +39,12 @@ button {
 
 h1 {
   font-family: courier, fantasy;
+  font-size:60px;
+  text-align: center;
 }
 
 button:hover {
-  background-color: red;
+  background-color: orangered;
 }
 
 .center {

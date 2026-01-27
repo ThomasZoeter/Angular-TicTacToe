@@ -25,6 +25,16 @@
   background-color: deepskyblue;
 }
 
+h1 {
+  font-family: courier, fantasy;
+  font-size:60px;
+  text-align: center;
+}
+
+.devmode {
+  font-size: 10px;
+}
+
 .center {
   height: 1050px;
   width: 850px;

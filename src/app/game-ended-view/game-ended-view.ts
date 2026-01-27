@@ -30,7 +30,6 @@ export class GameEnded implements OnInit {
   public result: boolean | null = null
   public resultMessageString = ''
   public winningRow: number[] | null = null
-  public winningRowString = ''
   public valueFields = ['', '', '', '', '', '', '', '', '']
 
   constructor(private resultService: ResultService) {
@@ -50,8 +49,5 @@ export class GameEnded implements OnInit {
     this.resultService.currentResultData.subscribe(resultState => this.result = resultState)
     this.resultService.currentWinningRowData.subscribe(resultRow => this.winningRow = resultRow)
     this.createResultMessage()
-    if (this.winningRow !== null) {
-      this.winningRowString = this.winningRow[0] + ', ' + this.winningRow[1] + ', ' + this.winningRow[2]
-    }
   }
 }

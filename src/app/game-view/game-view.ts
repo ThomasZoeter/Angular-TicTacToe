@@ -18,6 +18,10 @@ import {GameEnded} from '../game-ended-view/game-ended-view';
     GameEnded
   ],
   template: `
+      <button class="devmode" (click)="setDevMode()">Developer mode</button>
+      @if(devmode) {
+          <input [value]="opponentsTime" (input)="opponentsTime = $any($event.target).value" placeholder="2000">
+      }
       <div class="center" animate.enter="enter-animation">
           <h1>Current player: {{ whoseTurnIsIt }}</h1>
           <div class="playfield">
@@ -30,6 +34,7 @@ import {GameEnded} from '../game-ended-view/game-ended-view';
               }
           </div>
       </div>
+
   `
 })
 export class Game implements OnInit, DoCheck {
@@ -40,6 +45,8 @@ export class Game implements OnInit, DoCheck {
   public whoseTurnIsIt = ''
   public resultGame: boolean | null = null
   public winningRow: number[] | null = null
+  public devmode = false
+  opponentsTime= 2000
 
   constructor(private playerService: PlayerService,
               private resultService: ResultService,
@@ -52,6 +59,10 @@ export class Game implements OnInit, DoCheck {
       this.valueFields[index] = this.player
       this.whoseTurnIsIt = this.opponent
     }
+  }
+
+  public setDevMode() {
+    return this.devmode = !this.devmode
   }
 
   public gameFinished(result: boolean | null, winningRow: number[] | null) {
@@ -74,7 +85,7 @@ export class Game implements OnInit, DoCheck {
   }
 
   private hasGameEnded(): boolean {
-    if (this.weGotAWinner(this.valueFields) !== null) { //check if I win
+    if (this.weGotAWinner(this.valueFields) !== null) { //check if current player wins
       this.resultGame = true
       this.gameFinished(this.resultGame, this.weGotAWinner(this.valueFields))
       this.router.navigate(['/game-ended'])
@@ -97,7 +108,7 @@ export class Game implements OnInit, DoCheck {
   ngDoCheck() {
     if (!this.hasGameEnded()) {
       if (this.whoseTurnIsIt !== this.player) { //opponent's turn
-        setTimeout(() => this.opponentsTurn(), 2000)
+        setTimeout(() => this.opponentsTurn(), this.opponentsTime)
       }
     }
   }
