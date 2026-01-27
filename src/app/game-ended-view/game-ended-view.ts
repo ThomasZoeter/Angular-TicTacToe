@@ -12,7 +12,7 @@ import {ResultService} from '../services/result-game.service';
   ],
   template: `
       <div class="center" animate.enter="enter-animation">
-          <h1>Game ended. {{ resultMessageString }}</h1>
+          <h1 style="font-size:60px;">Game ended. {{ resultMessageString }}</h1>
           <div class="playfield">
               @for (value of valueFields;let idx = $index;track idx) {
                   <button [disabled]=true
